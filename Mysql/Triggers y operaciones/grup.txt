@@ -1,0 +1,150 @@
+
+MariaDB [dbyuli]> select * from tbl_articulo;
++--------+---------------------------------------+--------------------+---------
+---------+----------+
+| id_art | tit_art                               | aut_art            | edi_art
+         | prec_art |
++--------+---------------------------------------+--------------------+---------
+---------+----------+
+|      1 | Redes cisc                            | Ernesto Arigasello | Alfaomeg
+a - Rama |    60000 |
+|      2 | Facebook y twiter para adultos        | Veloso Claudio     | Alfaomeg
+a        |    52000 |
+|      3 | Creacion de un portal con php y mysql | Jacobo Gómez Lopez | Alfaomeg
+a - Rama |    40000 |
+|      4 | Administración de sistemas operativos | Julio Gómez Lopez  | Alfaomeg
+a - Rama |    55000 |
++--------+---------------------------------------+--------------------+---------
+---------+----------+
+4 rows in set (0.00 sec)
+
+MariaDB [dbyuli]> select * from tbl_articuloxpedido;
++------------+---------------+----------------+--------------------+------------
+---+
+| id_art_ped | id_ped_artped | can_art_artped | val_ven_art_artped | id_art_artp
+ed |
++------------+---------------+----------------+--------------------+------------
+---+
+|          1 |             1 |              5 |              40000 |
+ 3 |
+|          2 |             1 |             12 |              55000 |
+ 4 |
+|          3 |             1 |              5 |              65000 |
+ 1 |
+|          4 |             2 |             10 |              55000 |
+ 1 |
++------------+---------------+----------------+--------------------+------------
+---+
+4 rows in set (0.00 sec)
+
+SUMA
+
+MariaDB [dbyuli]> select tbl_articulo.tit_art,tbl_articulo.prec_art,tbl_articulo
+xpedido.can_art_artped,tbl_articuloxpedido.val_ven_art_artped*tbl_articulo.prec_
+art as Valor_Venta from tbl_articulo,tbl_articuloxpedido;
++---------------------------------------+----------+----------------+-----------
+--+
+| tit_art                               | prec_art | can_art_artped | Valor_Vent
+a |
++---------------------------------------+----------+----------------+-----------
+--+
+| Redes cisc                            |    60000 |              5 |  240000000
+0 |
+| Facebook y twiter para adultos        |    52000 |              5 |  208000000
+0 |
+| Creacion de un portal con php y mysql |    40000 |              5 |  160000000
+0 |
+| Administración de sistemas operativos |    55000 |              5 |  220000000
+0 |
+| Redes cisc                            |    60000 |             12 |  330000000
+0 |
+| Facebook y twiter para adultos        |    52000 |             12 |  286000000
+0 |
+| Creacion de un portal con php y mysql |    40000 |             12 |  220000000
+0 |
+| Administración de sistemas operativos |    55000 |             12 |  302500000
+0 |
+| Redes cisc                            |    60000 |              5 |  390000000
+0 |
+| Facebook y twiter para adultos        |    52000 |              5 |  338000000
+0 |
+| Creacion de un portal con php y mysql |    40000 |              5 |  260000000
+0 |
+| Administración de sistemas operativos |    55000 |              5 |  357500000
+0 |
+| Redes cisc                            |    60000 |             10 |  330000000
+0 |
+| Facebook y twiter para adultos        |    52000 |             10 |  286000000
+0 |
+| Creacion de un portal con php y mysql |    40000 |             10 |  220000000
+0 |
+| Administración de sistemas operativos |    55000 |             10 |  302500000
+0 |
++---------------------------------------+----------+----------------+-----------
+--+
+16 rows in set (0.00 sec)
+
+MUTIPLICAR
+ select tbl_articulo.tit_art,tbl_articulo.prec_art,tbl_articulo
+xpedido.can_art_artped,tbl_articuloxpedido.val_ven_art_artped*tbl_articulo.prec_
+art as Valor_Venta from tbl_articulo,tbl_articuloxpedido where tbl_articulo.id_a
+rt=tbl_articuloxpedido.id_art_artped;
++---------------------------------------+----------+----------------+-----------
+--+
+| tit_art                               | prec_art | can_art_artped | Valor_Vent
+a |
++---------------------------------------+----------+----------------+-----------
+--+
+| Creacion de un portal con php y mysql |    40000 |              5 |  160000000
+0 |
+| Administración de sistemas operativos |    55000 |             12 |  302500000
+0 |
+| Redes cisc                            |    60000 |              5 |  390000000
+0 |
+| Redes cisc                            |    60000 |             10 |  330000000
+0 |
++---------------------------------------+----------+----------------+-----------
+--+
+4 rows in set (0.00 sec)
+
+select tbl_articulo.tit_art,tbl_articulo.prec_art,tbl_articulo
+xpedido.can_art_artped,tbl_articuloxpedido.can_ven_art_artped*tbl_articulo.prec_
+art as Valor_Venta from tbl_articulo,tbl_articuloxpedido;
+
+
+
+SELECT nombre_tabla.nombre_campo, 
+
+SELECT A DESAROLLAR
+
+Mostrar nombre del cliente, dirección fecha pedido, total valor pedido. Teniendo en cuenta que un pedido tiene asociados mas de un articulo.
+
+SELECT tbl_cliente.nom_cli, tbl_cliente.dir_cli, tbl_pedido.fec_ped, SUM(tbl_articuloxpedido.can_art_artped*tbl_articulo.prec_art) AS Valor_Compra FROM tbl_cliente,tbl_pedido,tbl_articuloxpedido,tbl_articulo WHERE tbl_pedido.id_cli_ped=tbl_cliente.id_cli AND tbl_articuloxpedido.id_ped_artped AND tbl_articuloxpedido.id_art_artped=tbl_articulo.id_art GROUP BY tbl_pedido.id_ped; 
+
+
+SELECT tbl_cliente.nom_cli, tbl_cliente.dir_cli, tbl_pedido.fec_ped, SUM(tbl_articuloxpedido.can_art_artped*tbl_articulo.prec_art) AS Valor_Compra FROM tbl_cliente,tbl_pedido,tbl_articuloxpedido,tbl_articulo WHERE tbl_pedido.id_cli_ped=tbl_cliente.id_cli AND tbl_articuloxpedido.id_ped_artped AND tbl_articuloxpedido.id_art_artped=tbl_articulo.id_art GROUP BY tbl_cliente.id_cli;
+-----------------------------------------------------------------------------TRIGGER--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
+DEFINICIÓN
+
+CREATE TRIGGER nombre_disparador momento_disparador evento_disparador ON nombre_tabla FOR EACH ROW sentencia_disparador;
+
+Antes de cualquier cosa se crea una tabla donde almacenar la copia (pueden ser los mismos campos y se puede agregar nuevos)
+
+CREATE TRIGER tblcopia_cliente AFTER insert ON tbl_cliente FOR EACH ROW insert into tblcopia_cliente(codigo_cop, trabajo_cop, modificado_cod) values (new.codigo_cod, new.trabajo_cop, new.modicado_cod now());
+
+
+EJEMPLO
+CREATE TABLE tblcopia_articulo (id_cop_art int (11) primary key, tit_cop_art varchar (100), aut_cop_art varchar (100), edi_cop_art varchar (300), prec_cop_art int (11), fecha_create_cop_art date);
+CREATE TRIGGER tblcopia_articulo AFTER INSERT ON tbl_articulo FOR EACH ROW INSERT INTO tblcopia_articulo(id_cop_art, tit_cop_art, aut_cop_art, edi_cop_art, prec_cop_art, fecha_create_cop_art) VALUES (new.id_art, new.tit_art, new.aut_art, new.edi_art, new.prec_art, now()); 
+ELIMINACIÓN
+
+DROP TRIGGER nombre_disparador;
+
+---DELIMITER cambiar el simbolo de ejecución
+---DELIMITER //
+Siempre se hace antes de empezar a crear un trigger
+Se hace cuando va haber un algoritmo dentro de la función, cambiando el simbolo de ejecución, para asi evitar un error.
+NOTA: no olvidar acomodar el simbolo de ejecución (volverlo a punto y coma)
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+

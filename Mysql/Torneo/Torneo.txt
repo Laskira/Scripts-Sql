@@ -1,0 +1,54 @@
+Se requiere de un sistema que permita la gestión de un torneo de futbol, 
+se debe de tener en cuenta que; una persona puede tener un usuario con privilegios o permisos especiales 
+según su rol que puede ser:
+Administrador; que podrá crear torneos cuyas especificicaciones 
+que podrá modificar y servirá como super usuario.
+Juez
+Técnico; que podrá agregar jugadores, agregar equipos y elegir su 
+respectivo equipo por torneo.
+
+Para inscribir a un equipo se debe de pedir al técnico un código 
+que confirme el pago de inscripción, este código solo podrá ser 
+usado una vez.
+
+Los torneos pueden ser de tipo recreativo o privado y tendran un precio
+y fecha de inscripcion, una fecha de inicio y fin, un número máximo de 
+equipos a elegir y un premio. 
+
+Se debe tener en cuenta que también se podrá asignar un premio a un 
+jugador.
+
+Se debe tener en cuenta que, si el en torneo hay un número de equipos mayor a diez (10), 
+entonces se pueden dividir los equipos del torneo en grupos (A-B).
+ 
+Los equipos deben de dar una vuelta entre sí, es decir, 
+un equipo debe de jugar contra todos los otros
+equipos al menos una vez.
+
+Un jugador podrá recibir una o más sanciones en un partido. 
+Tarjetas amarillas, azul y roja.
+
+Un gol tendrá un tipo, minuto de juegos en que fue hecho y 
+podrá ser asignado al equipo o un jugador.
+
+Se debe de saber 
+los partidos jugados por un equipo; 
+las faltas que ocurran en dicho y quien la cometio.
+los goles a favor y en contra, 
+empates, 
+partidos perdidos y ganados, 
+total de goles,
+total de puntos.
+
+Los puntos de un equipo se asignarán de la siguiente forma: 
+1. Cada partido ganado suma 3 puntos.
+2. Cada partido perdido dará 0 puntos.
+3. Cada partido empatado dará 1 punto.
+4. Cuando se gane un partido por W se le sumarán 3 
+goles al equipo vencedor y se le restarán estos al 
+perdedor, pero no se asignarán dichos goles a ningún jugador.
+
+Debe de existir una programación de partidos en que se evidencien 
+los partidos que se jugarán en un torneo.
+
+

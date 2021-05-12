@@ -1,0 +1,164 @@
+1) Muestre los salarios de los profesores ordenados por categoría
+
+  select sal_prof from tbl_profesor order by cate_prof;
+_____________________________________________________________________
+2) Muestre los cursos cuyo valor sea mayor a $500.000. 
+
+  select * from tbl_curso where valor_curs>500000;
+_____________________________________________________________________________
+3)Cuente el número de estudiantes cuya edad sea mayor a 22 
+
+ select count(tbl_estudiante.edad_est) from tbl_estudiante where edad_est>22;
+__________________________________________________________________________________
+4) Muestre el nombre y la edad del estudiante más joven
+ 
+ select tbl_estudiante.nom_est, tbl_estudiante.edad_est from tbl_estudiante where edad_est =( select min(edad_est) from tbl_estudiante); 
+__________________________________________________________________________________________________________________________________________
+5)  Calcule el valor promedio de los cursos cuyas horas sean mayores a 40.
+
+   select avg(valor_curs) from  tbl_curso where horas_curs>40;
+__________________________________________________________________________________
+6) Obtener el sueldo promedio de los profesores de la categoría 1 
+
+SELECT AVG(sal_prof) FROM tbl_profesor WHERE cate_prof=1
+_________________________________________________________________________________________
+7) Muestre todos los campos de la tabla curso en orden ascendente según el valor.
+
+  select * from tbl_curso order by valor_curs;
+__________________________________________________________
+8) Muestre el nombre del profesor con menor sueldo 
+
+  select tbl_profesor.nom_prof  from tbl_profesor where sal_prof = (select min(sal_prof) from tbl_profesor);
+_______________________________________________________________________________________________________________
+9) Visualizar todos los estudiantes (código y nombre) que iniciaron cursos el 01/02/2011, del curso debe mostrarse el nombre, las horas y el valor.
+
+  select doc_est, nom_est, nom_curs, horas_curs, valor_curs from tbl_estudiantexcurso inner join tbl_estudiante on doc_est_estcur=doc_est inner join tbl_curso on cod_cur_estcur=cod_curs
+  where fecha_ini_estcur='01/02/2011' 
+_____________________________________________________________________________________________________________________________________________________________________________________________
+10)  Visualice los profesores cuyo sueldo este entre $500.000 y $700.000
+
+  select * from tbl_profesor where sal_prof between 500000 and 700000;
+__________________________________________________________________________________________________________________________________
+11) Visualizar el nombre, apellido y dirección de todos aquellos clientes que hayan realizado un pedido el día 25 /02/2012.
+
+  select nom_cli, ape_cli, dir_cli  from tbl_cliente inner join tbl_pedido on id_cli_ped = id_cli where fec_ped ='25 /02/2012';
+__________________________________________________________________________________________________________________________________
+12) Listar todos los pedidos realizados incluyendo el nombre del articulo
+
+  select id_art_ped , tit_art  from tbl_articuloXpedido inner join tbl_articulo on id_art_artped = id_art order by id_art_ped;
+__________________________________________________________________________________________________________________________________
+13) Visualizar los clientes que cumplen años en marzo
+
+   select * from tbl_cliente where mes_cum_cli='marzo';
+_________________________________________________________________________________________________________________________________
+14)Visualizar los datos del pedido 1, incluyendo el nombre del cliente, la dirección del mismo, el nombre y el valor de los artículos que tiene dicho pedido.
+
+> select tbl_cliente.nom_cli, tbl_cliente.dir_cli, tbl_articulo.tit_art, tbl_articulo.prec_art from tbl_cliente , tbl_articulo, tbl_articuloXpedido, tbl_pedido
+where tbl_cliente.id_cli=tbl_pedido.id_cli_ped and tbl_pedido.id_ped=tbl_articuloXpedido.id_ped_artped and tbl_articuloXpedido.id_art_artped = tbl_articulo.id_art
+and tbl_pedido.id_ped=1;
+______________________________________________________________________________________________________________________________________________________________________
+15) Visualizar el nombre del cliente, la fecha y el valor del pedido más costoso
+
+  select tbl_cliente.nom_cli as Nombre_cliente, tbl_pedido.fec_ped, tbl_pedido.val_ped from tbl_cliente, tbl_pedido 
+where tbl_cliente.id_cli=tbl_pedido.id_cli_ped and tbl_pedido.id_cli_ped= tbl_cliente.id_cli and val_ped= (select max(val_ped) from tbl_pedido);
+____________________________________________________________________________________________________________________________________
+16) Mostrar cuantos artículos se tienen de cada editorial
+
+  select tbl_articulo.edi_art  from tbl_articulo;
+__________________________________________________________________________________________________________________________________________
+17) Mostrar los pedidos con los respectivos artículos(código, nombre, valor y cantidad pedida)
+
+  select tbl_pedido.id_ped as Pedido, tbl_articulo.id_art as Codigo , tbl_articulo.tit_art as Nombre_Articulo, tbl_articulo.prec_art as Valor_Articulo, 
+  tbl_articuloXpedido.can_art_artped as Cantida_Pedida from  tbl_pedido, tbl_cliente, tbl_articulo, tbl_articuloXpedido
+  where tbl_pedido.id_cli_ped = tbl_cliente.id_cli and tbl_cliente.id_cli=tbl_pedido.id_cli_ped 
+  and tbl_articulo.id_art=tbl_articuloXpedido.id_art_artped and tbl_articuloXpedido.id_ped_artped=tbl_pedido.id_ped;
+_____________________________________________________________________________________________________________________________________________________
+18) Visualizar todos los clientes organizados por apellido
+
+   select * from tbl_cliente  order by ape_cli
+________________________________________________________________________________________________________________________________________ 
+19) Visualizar todos los artículos organizados por autor
+ 
+   select * from tbl_articulo order by aut_art 
+_________________________________________________________________________________________________________________________________________________________________________________________________
+20) Visualizar los pedidos que se han realizado para el articulo con id 2, el listado debe mostrar el nombre y dirección del cliente,
+el respectivo número de pedido y la cantidad solicitada.
+ 
+  select tbl_cliente.nom_cli, tbl_cliente.dir_cli, tbl_pedido.id_ped, tbl_articuloXpedido.can_art_artped from tbl_pedido, tbl_articulo, tbl_cliente, tbl_articuloXpedido
+  where tbl_cliente.id_cli=tbl_pedido.id_cli_ped and tbl_articulo.id_art=tbl_articuloXpedido.id_art_artped
+  and tbl_pedido.id_ped=tbl_articuloXpedido.id_ped_artped and id_art=2;
+  
+__________________________________________________________________________________________________________________________________________________________________________________________________________________
+21) Visualizar los datos de las empresas fundadas entre el año 1991 y 1998
+
+  select * from tbl_compañia where comañofun between '1991' and '1998';
+_________________________________________________________________________________________________________________________________________________________________
+22) Listar los todos datos de los automotores cuya póliza expira en octubre de 2013, este reporte debe visualizar la placa, el modelo,
+ la marca,número de pasajeros, cilindraje nombre de automotor, el valor de la póliza y el valor asegurado.
+
+  select  tbl_automotores.autoplaca, tbl_automotores.automarca, tbl_automotores.autonumpasajeros,
+  tbl_automotores.autocilindraje, tbl_tiposautomotores.autnombre, tbl_aseguramientos.asecosto, tbl_aseguramientos.asevalorasegurado from tbl_aseguramientos, tbl_automotores,
+  tbl_tiposautomotores where tbl_tiposautomotores.auttipo=tbl_automotores.autotipo and tbl_aseguramientos.aseplaca=tbl_automotores.autoplaca and asefechaexpiracion='27/09/2013';
+___________________________________________________________________________________________________________________________________________________________________________________
+23) Visualizar los datos de los incidentes ocurridos el 30 de septiembre de 2012, con su respectivo número de póliza,
+fecha de inicio de la póliza, valor asegurado y valor de la póliza.
+ 
+ select  tbl_incidentes.incicodigo, tbl_incidentes.incifecha, tbl_incidentes.inciplaca, tbl_incidentes.incilugar, tbl_incidentes.incicantheridos,
+ tbl_incidentes.incicantfatalidades, tbl_incidentes.incicantautosinvolucrados, tbl_aseguramientos.asecodigo, tbl_aseguramientos.asefechainicio, tbl_aseguramientos.asevalorasegurado,
+ tbl_aseguramientos.asecosto from tbl_incidentes, tbl_aseguramientos, tbl_automotores
+ where tbl_aseguramientos.aseplaca=tbl_automotores.autoplaca and tbl_incidentes.inciplaca=tbl_automotores.autoplaca and incifecha='30/09/2012';
+ 
+
+___________________________________________________________________________________________________________________________________________________________________
+24) Visualizar los datos de los incidentes que han tenido un(1) herido, este reporte debe visualizar la placa del automotor, 
+con los respectivos datos de la póliza como son fecha de inicio, valor, estado y valor asegurado
+  
+  select  tbl_incidentes.incicodigo, tbl_incidentes.incifecha, tbl_incidentes.inciplaca, tbl_incidentes.incilugar, tbl_incidentes.incicantheridos,
+  tbl_incidentes.incicantfatalidades, tbl_incidentes.incicantautosinvolucrados,tbl_automotores.autoplaca,tbl_aseguramientos.asefechainicio,tbl_aseguramientos.asecosto,
+  tbl_aseguramientos.aseestado,tbl_aseguramientos.asevalorasegurado from tbl_incidentes, tbl_aseguramientos, tbl_automotores
+  where tbl_aseguramientos.aseplaca=tbl_automotores.autoplaca and tbl_incidentes.inciplaca=tbl_automotores.autoplaca and incicantheridos=1;
+
+______________________________________________________________________________________________________________________________________________________________
+25) Visualizar todos los datos de la póliza más costosa
+
+  select * from tbl_aseguramientos where asecosto= (select max(asecosto) from tbl_aseguramientos);
+_________________________________________________________________________________________________________________________________________________________
+26) Visualizar los incidentes con el mínimo número de autos involucrados, de este incidente visualizar el estado de la póliza y el valor asegurado
+ 
+  select tbl_incidentes.incicodigo, tbl_incidentes.incifecha, tbl_incidentes.inciplaca, tbl_incidentes.incilugar, tbl_incidentes.incicantheridos,
+  tbl_incidentes.incicantfatalidades, tbl_incidentes.incicantautosinvolucrados,  tbl_aseguramientos.aseestado, 
+  tbl_aseguramientos.asevalorasegurado from tbl_incidentes, tbl_aseguramientos, tbl_automotores
+  where tbl_aseguramientos.aseplaca=tbl_automotores.autoplaca and tbl_incidentes.inciplaca=tbl_automotores.autoplaca and
+  incicantautosinvolucrados=(select min(incicantautosinvolucrados) from tbl_incidentes);
+_________________________________________________________________________________________________________________________________________________________
+27) Visualizar los incidentes del vehículo con placas " FLL420", este reporte debe visualizar la fecha, el lugar, la cantidad de heridos del incidente,
+la fecha de inicio la de expiración de la póliza y el valor asegurado.
+ 
+  select tbl_incidentes.incifecha, tbl_incidentes.incilugar, tbl_incidentes.incicantheridos, tbl_aseguramientos.asefechainicio, tbl_aseguramientos.asefechaexpiracion,
+  tbl_aseguramientos.aseestado from tbl_incidentes, tbl_aseguramientos,tbl_automotores
+  where tbl_aseguramientos.aseplaca=tbl_automotores.autoplaca and tbl_incidentes.inciplaca=tbl_automotores.autoplaca and inciplaca= 'FLL420';
+_______________________________________________________________________________________________________________________________________________________________________
+28) Visualizar los datos de la empresa con nit 899999999-5.
+
+  select * from tbl_compañia where comnit='899999999-5';
+
+_______________________________________________________________________________________________________________________________________________________
+29) Visualizar los datos de la póliza cuyo valor asegurado es el más costoso, este reporte además de visualizar todos los datos de la póliza,
+ debe presentar todos los datos del vehículo que tiene dicha póliza.
+  
+  select tbl_aseguramientos.asecodigo, tbl_aseguramientos.asefechainicio, tbl_aseguramientos.asefechaexpiracion, tbl_aseguramientos.asevalorasegurado,
+  tbl_aseguramientos.aseestado, tbl_aseguramientos.asecosto, tbl_aseguramientos.aseplaca,tbl_tiposautomotores.autnombre, tbl_automotores.autoplaca,
+  tbl_automotores.automarca, tbl_automotores.autotipo, tbl_automotores.automodelo, tbl_automotores.autonumpasajeros, tbl_automotores.autocilindraje,
+  tbl_automotores.autonumchasis from tbl_aseguramientos, tbl_tiposautomotores, tbl_automotores
+  where tbl_tiposautomotores.auttipo=tbl_automotores.autotipo and tbl_aseguramientos.aseplaca=tbl_automotores.autoplaca 
+  and asevalorasegurado=(select max(asevalorasegurado) from tbl_aseguramientos);
+  
+___________________________________________________________________________________________________________________________________________________________
+30) Visualizar los datos de las pólizas de los automotores tipo 1, este reporte debe incluir placa, marca, modelo, cilindraje del vehículo junto con 
+la fecha de inicio, de finalización y estado de la póliza 
+
+  select  tbl_aseguramientos.asecodigo,  tbl_aseguramientos.asevalorasegurado,tbl_aseguramientos.aseestado, tbl_aseguramientos.asecosto,tbl_tiposautomotores.autnombre, tbl_automotores.autoplaca,
+  tbl_automotores.automarca, tbl_automotores.automodelo, tbl_automotores.autocilindraje, tbl_aseguramientos.asefechainicio, tbl_aseguramientos.asefechaexpiracion, tbl_aseguramientos.aseestado
+  from tbl_aseguramientos, tbl_automotores, tbl_tiposautomotores  where tbl_tiposautomotores.auttipo=tbl_automotores.autotipo and tbl_automotores.autoplaca=tbl_aseguramientos.aseplaca
+  and auttipo=1;
+____________________________________________________________________________________________________________________________________________________________

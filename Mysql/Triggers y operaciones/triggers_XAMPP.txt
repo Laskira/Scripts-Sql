@@ -1,0 +1,117 @@
+                                                   TRIGGERS
+
+
+
+
+
+CREATE TRIGGER nombre_trigger BEFORE insert ON nombre_tabla FOR EACH ROW begin sentencia_algoritmo set
+
+--------------EJEMPLO-----------------------
+
+valor a comercializar 10+%de ganancia
+valor_venta<-costo+costo (costo*10)/100
+                         (costp*1)
+valor_venta<-valor_total
+
+CREATE TABLE producto(codigo int(11) primary key, nombre varchar (100), porcentaje_de_ganancia float, costo float, valor_venta float, cantidad int);
+
+DELIMITER //
+
+CREATE TRIGGER nombre_trigger BEFORE INSERT ON productos FOR EACH ROW BEGIN SET new.valor_venta=new.costo+new.costo*new.porcentaje_de_ganancia/100;END;//
+
+
+INSERT INTO producto VALUES('1', 'Arroz 1 kilo', '15', '1800', '0','45');
+
+DELIMITER ;
+
+
+-----------------------------------------------CREAR UN TRIGGER CON DOS TABLAS-------------------------------------------------------------
+<<<<<<<<<<<<<<MULTIPLICACION>>>>>>>>>>>>>>>>>
+DELIMITER //
+CREATE TRIGGER nombre_trigger BEFORE INSERT ON nombre_tabla1
+FOR EACH ROW 
+BEGIN 
+UPDATE nombre_tabla1,nombre_tabla2
+SET new.campo_resultado=campo_de_nombre_tabla1 * campo_de_nombre_tabla2 
+WHERE id_tabla1=id_tabla2;END;//
+--NOTA: el WHERE y sus datos se usan para tener un campo identificador
+DELIMITER ;
+
+
+*******************EJEMPLO**************
+Trigger que da el precio de un articulo multiplicando su precio por su cantidad
+
+DELIMITER //
+CREATE TRIGGER valor_venta BEFORE INSERT ON tbl_articuloxpedidO 
+FOR EACH ROW 
+BEGIN 
+UPDATE tbl_articulo,tbl_articuloxpedido 
+SET new.val_ven_art_artped=prec_art * can_art_artped 
+WHERE id_art_artped=id_art;END;//
+DELIMITER ;
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>THE SAME BUT DIFERENT<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+DELIMITER //
+CREATE TRIGGER valor_venta BEFORE INSERT ON tbl_articuloxpedidO 
+FOR EACH ROW 
+BEGIN 
+UPDATE tbl_articulo,tbl_articuloxpedido 
+SET new.val_ven_art_artped= can_art_artped * tbl_articulo.prec_art
+WHERE tbl_articuloxpedido.id_art_artped=tbl_articulo.id_art;END;//
+DELIMITER ;
+
+-------------------------------------------------------------BORRAR UN TRIGGER----------------------------------------------------------------
+
+DROP TRIGGER IF EXISTS `nombre_trigger`
+
+**********************************EJEMPLO*****************
+DROP TRIGGER IF EXISTS `valor_venta`
+
+
+---------------------------------------------AÑADIR UN NUEVO CAMPO A TABLA EXISTENTE--------------------------------------------------------------------------
+
+ALTER TABLE nombre_tabla ADD nuevo_campo tipos de campo;
+
+**********************************EJEMPLO**************************
+
+ALTER TABLE productos ADD cantidad int;
+
+
+---------------------------------------------SUMA CAMPOS DE DOS TABLAS----------------------------------------------
+
+
+DELIMITER //
+CREATE TRIGGER suma AFTER INSERT ON tbl_articuloxpedidO  
+FOR EACH ROW
+BEGIN
+UPDATE tbl_articuloxpedido, tbl_pedido 
+SET val_ped=val_ped+tbl_articuloxpedido.val_ven_art_artped
+WHERE tbl_pedido.id_ped=tbl_articuloxpedido.id_ped_artped 
+AND tbl_articuloxpedido.id_art_ped=new.id_ped_artped;END;//
+DELIMITER ;
+
+INSERT INTO tbl_articuloxpedido (id_art_ped, id_ped_artped, can_art_artped, val_ven_art_artped, id_art_artped) 
+VALUES ('1', '2', '3', '0', '1');
+
+-----------------------------------------------------------RESTAR-------------------------------------------------------
+Crear dos tablas (productos y venta) cuando se haga una venta descontar del (cantidad en inventario) inventario, 
+después de insertar en la tabla ventas, descontar la cantidad vendida de la tabla producto. 
+
+CREATE TABLE producto(codigo int(11) primary key, nombre varchar (100), porcentaje_de_ganancia float, costo float, valor_venta float, cantidad int);
+
+CREATE TABLE ventas (id bigint(20) primary key, id_articulo bigint(20), id_cliente bigint(20), cantidad int (11), precio decimal(9,2));
+
+INSERT INTO ventas(id, id_articulo,id_cliente, cantidad, precio) 
+VALUES ('1', '1', '208889', '2','3600');
+DELIMITER //
+CREATE TRIGGER inventario AFTER INSERT ON ventas
+FOR EACH ROW
+BEGIN 
+UPDATE ventas, producto
+SET new.cantidad=producto.cantidad-cantidad_ven
+WHERE producto.codigo=ventas.id;END;//
+DELIMITER ;
+
+
+Si la cantidad de productos selecionadosa retirar, es menor a la cantidad solicitada mostrar un mensaje
+
